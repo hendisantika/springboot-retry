@@ -3,6 +3,7 @@ package com.hendisantika.springbootretry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,12 @@ public class BillingService {
         LOGGER.info("Billing Service Failed " + counter);
         throw new SQLException();
 
+    }
+
+    @Recover
+    public String recover(SQLException t) {
+        LOGGER.info("Service recovering");
+        return "Service recovered from billing service failure.";
     }
 
 }
